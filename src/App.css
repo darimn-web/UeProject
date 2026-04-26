@@ -183,3 +183,162 @@
   background: #fdf2f2;
   color: #991b1b;
 }
+
+.big-red-button {
+  position: absolute;
+  top: 80px;
+  right: 20px;
+  z-index: 1000;
+  background-color: #ff0000;
+  color: white;
+  border: 4px solid white;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  font-weight: 900;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.big-red-button:hover {
+  background-color: #cc0000;
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+.big-red-button:active {
+  transform: scale(0.95);
+}
+
+.details-panel {
+  top: 150px;
+}
+
+.button-controls {
+  position: absolute;
+  top: 80px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.little-projects-btn {
+  position: static !important;
+  background-color: #333 !important;
+}
+
+.little-projects-btn.active {
+  background-color: #003399 !important;
+  border-color: #fff !important;
+}
+
+.visible-projects-menu {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: 320px;
+  max-height: 400px;
+  background: white;
+  z-index: 1000;
+  border-radius: 12px;
+  box-shadow: 0 4px 25px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #ddd;
+}
+
+.menu-header {
+  padding: 15px;
+  background: #003399;
+  color: white;
+}
+
+.menu-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.total-budget {
+  font-size: 1.2rem;
+  font-weight: 900;
+  margin-top: 5px;
+  color: #ffd700;
+}
+
+.projects-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.project-list-item {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.project-list-item:last-child {
+  border-bottom: none;
+}
+
+.p-name {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.p-budget {
+  font-size: 0.8rem;
+  color: #666;
+  font-family: monospace;
+}
+
+.no-projects {
+  text-align: center;
+  color: #999;
+  padding: 20px;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.toggle-min-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: all 0.2s ease;
+}
+
+.toggle-min-btn:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.visible-projects-menu.minimized {
+  width: 240px;
+  max-height: 50px;
+}
+
+.visible-projects-menu.minimized .menu-header {
+  padding: 10px 15px;
+}
+
