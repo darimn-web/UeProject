@@ -27,6 +27,7 @@ const App: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('All');
   const [viewMode, setViewMode] = useState<'important' | 'others' | 'little'>('important');
   const [visibleBounds, setVisibleBounds] = useState<L.LatLngBounds | null>(null);
+  const [isTierMenuOpen, setIsTierMenuOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const currentDataset = useMemo(() => {
@@ -53,41 +54,32 @@ const App: React.FC = () => {
 
   return (
     <div className="app-container">
-      {/* Tier Selection - Top Left */}
-      <div className="tier-controls">
-        <button 
-          className={`tier-btn important ${viewMode === 'important' ? 'active' : ''}`}
-          onClick={() => { setViewMode('important'); setSelectedProject(null); }}
-        >
-          Important
+      {/* Unified Control Menu - Top Left */}
+      <div className={`control-menu-wrapper ${isTierMenuOpen ? 'open' : 'minimized'}`}>
+        <button className="menu-toggle-btn tier-toggle" onClick={() => setIsTierMenuOpen(!isTierMenuOpen)}>
+          {isTierMenuOpen ? 'Close Menu ×' : `${viewMode.toUpperCase()} ▾`}
         </button>
-        <button 
-          className={`tier-btn others ${viewMode === 'others' ? 'active' : ''}`}
-          onClick={() => { setViewMode('others'); setSelectedProject(null); }}
-        >
-          Others
-        </button>
-        <button 
-          className={`tier-btn little ${viewMode === 'little' ? 'active' : ''}`}
-          onClick={() => { setViewMode('little'); setSelectedProject(null); }}
-        >
-          Little
-        </button>
+        {isTierMenuOpen && (
+          <div className="menu-options">
+            <button className={`sm-btn ${viewMode === 'important' ? 'active' : ''}`} onClick={() => {setViewMode('important'); setIsTierMenuOpen(false);}}>Important</button>
+            <button className={`sm-btn ${viewMode === 'others' ? 'active' : ''}`} onClick={() => {setViewMode('others'); setIsTierMenuOpen(false);}}>Others</button>
+            <button className={`sm-btn ${viewMode === 'little' ? 'active' : ''}`} onClick={() => {setViewMode('little'); setIsTierMenuOpen(false);}}>Little</button>
+          </div>
+        )}
       </div>
 
-      {/* Expandable Filter Menu - Right Side */}
+      {/* Expandable Filter Menu - Top Right */}
       <div className={`filter-menu-wrapper ${isFilterOpen ? 'open' : 'minimized'}`}>
-        <button className="filter-toggle-btn" onClick={() => setIsFilterOpen(!isFilterOpen)}>
-          {isFilterOpen ? 'Close Filters ×' : 'Filters ☰'}
+        <button className="menu-toggle-btn filter-toggle" onClick={() => setIsFilterOpen(!isFilterOpen)}>
+          {isFilterOpen ? 'Close ×' : 'Filters ☰'}
         </button>
         {isFilterOpen && (
           <div className="filter-options">
-            <h4>Categories</h4>
             {categories.map(cat => (
               <button 
                 key={cat}
-                className={`side-filter-btn ${activeCategory === cat ? 'active' : ''}`}
-                onClick={() => setActiveCategory(cat)}
+                className={`side-filter-btn sm-btn ${activeCategory === cat ? 'active' : ''}`}
+                onClick={() => {setActiveCategory(cat); setIsFilterOpen(false);}}
               >
                 {cat}
               </button>
