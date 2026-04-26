@@ -76,3 +76,9 @@ export default defineConfig([
 - **Branching Policy:** This project uses a single-branch workflow. All updates are made directly to the master branch.
 - **Sole Contributor:** No feature branches or Pull Requests are required at this stage.
 
+
+## Scan to View App
+![App QR Code](https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://darimn-web.github.io/UeProject/)
+
+[Open Live App](https://darimn-web.github.io/UeProject/)
+
