@@ -12,7 +12,6 @@ import MapContainer from './components/MapContainer';
 import ProjectDetails from './components/ProjectDetails';
 import VisibleProjectsMenu from './components/VisibleProjectsMenu';
 
-// Fix for default marker icons
 // @ts-ignore
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -28,6 +27,7 @@ const App: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('All');
   const [viewMode, setViewMode] = useState<'important' | 'others' | 'little'>('important');
   const [visibleBounds, setVisibleBounds] = useState<L.LatLngBounds | null>(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const currentDataset = useMemo(() => {
     if (viewMode === 'important') return importantProjects as Project[];
@@ -53,44 +53,47 @@ const App: React.FC = () => {
 
   return (
     <div className="app-container">
-      <div className="filter-bar">
-        {categories.map(cat => (
-          <button 
-            key={cat}
-            className={`filter-btn ${activeCategory === cat ? 'active' : ''}`}
-            onClick={() => {
-              setActiveCategory(cat);
-              setSelectedProject(null);
-            }}
-          >
-            {cat}
-          </button>
-        ))}
+      {/* Tier Selection - Top Left */}
+      <div className="tier-controls">
+        <button 
+          className={`tier-btn important ${viewMode === 'important' ? 'active' : ''}`}
+          onClick={() => { setViewMode('important'); setSelectedProject(null); }}
+        >
+          Important
+        </button>
+        <button 
+          className={`tier-btn others ${viewMode === 'others' ? 'active' : ''}`}
+          onClick={() => { setViewMode('others'); setSelectedProject(null); }}
+        >
+          Others
+        </button>
+        <button 
+          className={`tier-btn little ${viewMode === 'little' ? 'active' : ''}`}
+          onClick={() => { setViewMode('little'); setSelectedProject(null); }}
+        >
+          Little
+        </button>
       </div>
 
-      <div className="button-controls">
-        <button 
-          className="big-red-button main-toggle"
-          onClick={() => {
-            if (viewMode === 'important') setViewMode('others');
-            else setViewMode('important');
-            setSelectedProject(null);
-            setActiveCategory('All');
-          }}
-        >
-          {viewMode === 'important' ? 'Others' : 'Important'}
+      {/* Expandable Filter Menu - Right Side */}
+      <div className={`filter-menu-wrapper ${isFilterOpen ? 'open' : 'minimized'}`}>
+        <button className="filter-toggle-btn" onClick={() => setIsFilterOpen(!isFilterOpen)}>
+          {isFilterOpen ? 'Close Filters ×' : 'Filters ☰'}
         </button>
-
-        <button 
-          className={`big-red-button little-projects-btn ${viewMode === 'little' ? 'active' : ''}`}
-          onClick={() => {
-            setViewMode('little');
-            setSelectedProject(null);
-            setActiveCategory('All');
-          }}
-        >
-          Little Projects
-        </button>
+        {isFilterOpen && (
+          <div className="filter-options">
+            <h4>Categories</h4>
+            {categories.map(cat => (
+              <button 
+                key={cat}
+                className={`side-filter-btn ${activeCategory === cat ? 'active' : ''}`}
+                onClick={() => setActiveCategory(cat)}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <VisibleProjectsMenu projects={visibleProjects} />
