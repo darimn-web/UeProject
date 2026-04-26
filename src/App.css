@@ -1,182 +1,152 @@
-#root {
+html, body, #root {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   margin: 0;
   padding: 0;
   overflow: hidden;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 .app-container {
   display: flex;
   width: 100%;
-  height: 100vh;
+  height: 100dvh; /* Use dynamic viewport height for mobile */
   position: relative;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-/* Unified Menu Styles */
+/* Menus */
 .control-menu-wrapper, .filter-menu-wrapper {
   position: absolute;
-  top: 15px;
+  top: 10px;
   z-index: 1001;
   background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   overflow: hidden;
-  transition: all 0.2s ease;
 }
 
-.control-menu-wrapper { left: 15px; width: 120px; }
-.filter-menu-wrapper { right: 15px; width: 110px; }
-
-.control-menu-wrapper.open, .filter-menu-wrapper.open {
-  width: 140px;
-}
+.control-menu-wrapper { left: 10px; width: 110px; }
+.filter-menu-wrapper { right: 10px; width: 100px; }
 
 .menu-toggle-btn {
   width: 100%;
-  padding: 8px 12px;
+  padding: 6px 10px;
   border: none;
-  background: #333;
+  background: #003399;
   color: white;
-  font-weight: 700;
-  font-size: 0.75rem;
+  font-weight: bold;
+  font-size: 0.7rem;
   cursor: pointer;
-  text-transform: uppercase;
 }
 
-.tier-toggle { background: #003399; } /* EU Blue */
-
 .menu-options, .filter-options {
-  padding: 8px;
+  padding: 5px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .sm-btn {
-  padding: 6px 10px;
+  padding: 5px 8px;
   border: 1px solid #eee;
   background: white;
-  border-radius: 6px;
-  font-size: 0.75rem;
+  border-radius: 4px;
+  font-size: 0.65rem;
   cursor: pointer;
   text-align: left;
-  transition: all 0.2s;
 }
 
-.sm-btn.active {
-  background: #f0f0f0;
+/* Perfect Circles for Clusters */
+.custom-marker-cluster {
+  background: transparent !important;
+  border: none !important;
+}
+
+.cluster-dot {
+  background: #003399;
+  color: white;
+  border-radius: 50% !important;
+  border: 2px solid white;
   font-weight: bold;
-  border-color: #ccc;
+  text-align: center;
+  box-sizing: border-box;
+  display: block;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
 
-/* Shrunk & Higher Dashboard */
-.visible-projects-menu {
-  position: absolute;
-  bottom: 80px; /* Higher */
-  left: 15px;
-  width: 240px !important;
-  background: white;
-  border-radius: 10px;
-  z-index: 1000;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-}
+.cluster-dot.small { width: 30px !important; height: 30px !important; line-height: 26px; font-size: 0.7rem; }
+.cluster-dot.medium { width: 40px !important; height: 40px !important; line-height: 36px; font-size: 0.8rem; background: #002266; }
+.cluster-dot.large { width: 50px !important; height: 50px !important; line-height: 46px; font-size: 0.9rem; background: #001133; }
 
-.visible-projects-menu.minimized {
-  bottom: 85px; /* Stay high when minimized */
-}
-
-/* Shrunk Details Panel */
+/* Details Panel & Text Wrap */
 .details-panel {
   position: absolute;
-  bottom: 80px;
-  right: 15px;
-  width: 260px;
-  max-height: 45vh;
+  bottom: 20px;
+  right: 20px;
+  width: 240px;
+  max-height: 40vh;
   background: white;
   z-index: 1000;
   padding: 15px;
   border-radius: 10px;
-  box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
-  transform: translateX(350px);
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  overflow-y: auto;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  word-wrap: break-word; /* Fix text overflow */
+  overflow-wrap: break-word;
+  hyphens: auto;
+  transform: translateX(400px);
+  transition: transform 0.3s ease;
 }
 
 .details-panel.active { transform: translateX(0); }
 
-/* PHONE OPTIMIZATION */
+.details-panel h2 {
+  font-size: 1rem;
+  margin: 0 0 10px 0;
+  color: #003399;
+  line-height: 1.2;
+}
+
+.project-info-item p {
+  font-size: 0.8rem;
+  margin: 0;
+  color: #444;
+  white-space: normal; /* Force wrapping */
+}
+
+/* Dashboard */
+.visible-projects-menu {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: 220px !important;
+  background: white;
+  border-radius: 8px;
+  z-index: 1000;
+}
+
+.map-wrapper, .leaflet-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Phone Fixes */
 @media (max-width: 600px) {
+  .details-panel {
+    width: calc(100% - 40px);
+    left: 20px;
+    bottom: 20px;
+    max-height: 35vh;
+  }
+  
   .visible-projects-menu {
     top: 60px;
     bottom: auto;
-    width: 180px !important;
+    left: 10px;
+    width: 160px !important;
   }
-  
-  .details-panel {
-    width: calc(100% - 30px);
-    bottom: 20px;
-  }
-}
-
-/* Cluster & Markers */
-.custom-marker-cluster { background: transparent; }
-.cluster-dot {
-  background: #003399;
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  border: 2px solid white;
-  aspect-ratio: 1 / 1; /* Force square ratio */
-  box-sizing: border-box;
-}
-
-.cluster-dot.small { 
-  width: 30px; 
-  height: 30px; 
-  min-width: 30px;
-  min-height: 30px;
-  font-size: 0.7rem; 
-}
-.cluster-dot.medium { 
-  width: 40px; 
-  height: 40px; 
-  min-width: 40px;
-  min-height: 40px;
-  font-size: 0.85rem; 
-  background: #002266; 
-}
-.cluster-dot.large { 
-  width: 50px; 
-  height: 50px; 
-  min-width: 50px;
-  min-height: 50px;
-  font-size: 1rem; 
-  background: #001133; 
-}
-
-/* Dashboard UI Internal */
-.menu-header { padding: 10px; background: #003399; color: white; border-radius: 10px 10px 0 0; }
-.header-top { display: flex; justify-content: space-between; align-items: center; }
-.header-top h3 { margin: 0; font-size: 0.8rem; }
-.total-budget { font-size: 0.9rem; font-weight: bold; color: #ffd700; margin-top: 2px; }
-.projects-list { max-height: 250px; overflow-y: auto; padding: 5px; }
-.project-list-item { padding: 5px; border-bottom: 1px solid #eee; font-size: 0.75rem; }
-.p-name { font-weight: bold; display: block; }
-.p-budget { color: #666; font-size: 0.7rem; }
-.toggle-min-btn { background: none; border: 1px solid rgba(255,255,255,0.3); color: white; cursor: pointer; border-radius: 3px; width: 20px; height: 20px; }
-
-.map-wrapper {
-  flex: 1;
-  height: 100%;
-  width: 100%;
-}
-
-.leaflet-container {
-  width: 100%;
-  height: 100%;
-  z-index: 1;
 }
