@@ -71,3 +71,8 @@ export default defineConfig([
   },
 ])
 ```
+
+## Development Workflow
+- **Branching Policy:** This project uses a single-branch workflow. All updates are made directly to the master branch.
+- **Sole Contributor:** No feature branches or Pull Requests are required at this stage.
+
