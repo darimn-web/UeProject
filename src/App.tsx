@@ -44,6 +44,8 @@ const App: React.FC = () => {
   const visibleProjects = useMemo(() => {
     if (!visibleBounds) return [];
     return filteredProjects.filter(p => 
+      p.coordinates && 
+      p.coordinates.length === 2 &&
       visibleBounds.contains(L.latLng(p.coordinates[0], p.coordinates[1]))
     );
   }, [filteredProjects, visibleBounds]);
