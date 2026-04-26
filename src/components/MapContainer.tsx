@@ -2,6 +2,7 @@ import React, { useMemo, useEffect } from 'react';
 import { MapContainer as LeafletMap, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import L from 'leaflet';
+import 'leaflet.markercluster';
 import type { Project } from '../types';
 import ProjectMarker from './ProjectMarker';
 
@@ -12,7 +13,7 @@ interface MapContainerProps {
   onBoundsChange?: (bounds: L.LatLngBounds) => void;
 }
 
-const createClusterCustomIcon = (cluster: L.MarkerCluster) => {
+const createClusterCustomIcon = (cluster: any) => {
   const count = cluster.getChildCount();
   let size: 'small' | 'medium' | 'large' = 'small';
   let pixels = 40;
